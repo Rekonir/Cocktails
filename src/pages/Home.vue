@@ -25,7 +25,8 @@ const getCockatils=()=>{
           <el-select
             v-model="ingredient"
             placeholder="Choose main ingredient"
-            size="select"
+            size="large"
+            class="select"
             @change="getCockatils"
           >
             <el-option

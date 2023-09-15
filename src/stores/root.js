@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import {INGREDIENRS_URL, COCKTAILS_URL} from '../constants/index.js'
+import { INGREDIENTS_URL, COCKTAILS_URL } from '../constants'
 
 export const useRootStore = defineStore('root', {
     state: () => ({
@@ -9,7 +9,7 @@ export const useRootStore = defineStore('root', {
     }),
     actions: {
         async getIngredients() {
-            const data = await axios.get('www.thecocktaildb.com/api/json/v1/1/list.php?i=list')
+            const data = await axios.get(INGREDIENTS_URL)
             this.ingredients = data?.data?.drinks
         },
         async getCocktails(ingredient) {
