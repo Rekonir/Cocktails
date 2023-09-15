@@ -1,24 +1,25 @@
 <script setup>
-import {ref} from 'vue'
+import { ref } from "vue";
 import AppLayout from "../components/AppLayout.vue";
 import { useRootStore } from "../stores/root";
 import { storeToRefs } from "pinia";
+import CockltailsThumb from "../components/CockltailsThumb.vue";
 
 const rootStore = useRootStore();
 rootStore.getIngredients();
 
 const { ingredients, cocktails } = storeToRefs(rootStore);
-const ingredient = ref(null)
+const ingredient = ref(null);
 
-const getCockatils=()=>{
-  rootStore.getCocktails(ingredient.value)
-}
+const getCockatils = () => {
+  rootStore.getCocktails(ingredient.value);
+};
 </script>
 
 <template>
-  <AppLayout imgUrl="src//assets/img/Bg.svg">
+  <AppLayout imgUrl="src/assets/img/Bg.svg">
     <div class="wrapper">
-      <div class="info">
+      <div v-if="!ingredient || !cocktails" class="info">
         <div class="title">Choose your drink</div>
         <div class="line"></div>
         <div class="select-wrapper">
@@ -38,9 +39,19 @@ const getCockatils=()=>{
           </el-select>
         </div>
         <div class="text">
-          Try our delicious cocktail recipes for every occasion. Find delicious cocktail recipes by ingredient through our cocktail generator.
+          Try our delicious cocktail recipes for every occasion. Find delicious
+          cocktail recipes by ingredient through our cocktail generator.
         </div>
-        <img src="/src/assets/img/Cocktails.svg" alt="Cocktails" class="img">
+        <img src="/src/assets/img/Cocktails.svg" alt="Cocktails" class="img" />
+      </div>
+      <div v-else class="info">
+        <div class="title">
+          COCKTAILS WITH Midori melon liqueur {{ ingredient }}
+        </div>
+        <div class="line"></div>
+        <div class="cocktails">
+          <CockltailsThumb v-for="cocktail in cocktails" :key="cocktail.idDrink" :cocktail="cocktail"/>
+        </div>
       </div>
     </div>
   </AppLayout>
@@ -57,13 +68,13 @@ const getCockatils=()=>{
   padding: 80px 0;
   text-align: center;
 }
-.select-wrapper{
+.select-wrapper {
   padding: 50px;
 }
-.select{
+.select {
   width: 220px;
 }
-.text{
+.text {
   max-width: 516px;
   margin: 0;
   padding: 50px;
@@ -71,8 +82,16 @@ const getCockatils=()=>{
   letter-spacing: 0.1em;
   color: #d3d3d3;
 }
-.img{
+.img {
   margin-top: 60px;
 }
-
+.cocktails{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 60px;
+  flex-wrap: wrap;
+  max-height: 500px ;
+  overflow-y: auto;
+}
 </style>

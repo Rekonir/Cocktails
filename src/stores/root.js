@@ -14,7 +14,7 @@ export const useRootStore = defineStore('root', {
         },
         async getCocktails(ingredient) {
             const data = await axios.get(`${COCKTAILS_URL}${ingredient}`)
-            this.ingredients = data?.data?.drinks
+            this.cocktails = data?.data?.drinks
         }
     }
 })
