@@ -23,6 +23,7 @@ const props = defineProps({
   display: flex;
   min-height: 100vh;
   background: $color-back;
+  width: 100%;
 }
 .img {
   width: 50%;
