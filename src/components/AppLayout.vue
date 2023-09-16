@@ -1,8 +1,17 @@
 <script setup>
+import { Back } from "@element-plus/icons-vue";
 const props = defineProps({
   imgUrl: {
     type: String,
     required: true,
+  },
+  backFunc: {
+    type: Function,
+    required: true,
+  },
+  isBackBtnVisible: {
+    type: Boolean,
+    default: true,
   },
 });
 </script>
@@ -11,7 +20,17 @@ const props = defineProps({
   <div class="root">
     <div :style="`background-image: url(${imgUrl})`" class="img"></div>
     <div class="main">
-      <el-button class="btn">Get random cocktail</el-button>
+      <div class="btns">
+        <el-button
+          type="primary"
+          :icon="Back"
+          circle
+          class="back"
+          @click="backFunc"
+          v-if="isBackBtnVisible"
+        />
+        <el-button class="btn">Get random cocktail</el-button>
+      </div>
       <slot></slot>
     </div>
   </div>
@@ -24,6 +43,7 @@ const props = defineProps({
   min-height: 100vh;
   background: $color-back;
   width: 100%;
+  margin: 0;
 }
 .img {
   width: 50%;
@@ -33,24 +53,40 @@ const props = defineProps({
 }
 .main {
   width: 50%;
+  padding: 32px 20px;
+}
+.btn {
+  font-size: 16px;
+  font-family: "Raleway", sans-serif;
+  background-color: $color-pink;
+  border-color: $color-pink;
+  color: $color-text;
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: darken($color-pink, 10%);
+    border-color: darken($color-pink, 10%);
+    color: $color-text;
+  }
+}
+.btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 32px 40px;
 }
-.btn{
-    position: absolute;
-    top: 32px;
-    right: 42px;
-    font-size: 16px;
-    font-family: "Raleway", sans-serif;
-    background-color: $color-pink;
+.back {
+  border-color: $color-muted;
+  background: transparent;
+  &:hover,
+  &:active,
+  &:focus {
     border-color: $color-pink;
-    color:$color-text;
-    &:hover,
-    &:active,
-    &:focus{
-        background-color: darken($color-pink, 10%);
-        border-color: darken($color-pink, 10%);
-        color: $color-text;
-    }
+    background: transparent;
+  }
+  &:focus {
+    background: transparent;
+    border-color: $color-muted;
+  }
 }
-
 </style>

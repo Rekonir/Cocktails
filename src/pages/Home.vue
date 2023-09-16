@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import AppLayout from "../components/AppLayout.vue";
 import { useRootStore } from "../stores/root";
 import { storeToRefs } from "pinia";
@@ -8,16 +7,18 @@ import CockltailsThumb from "../components/CockltailsThumb.vue";
 const rootStore = useRootStore();
 rootStore.getIngredients();
 
-const { ingredients, cocktails } = storeToRefs(rootStore);
-const ingredient = ref(null);
+const { ingredients, ingredient, cocktails } = storeToRefs(rootStore);
 
 const getCockatils = () => {
-  rootStore.getCocktails(ingredient.value);
+  rootStore.getCocktails(rootStore.ingredient);
+};
+const removeIngreditnt = () => {
+  rootStore.setIngredient(null)
 };
 </script>
 
 <template>
-  <AppLayout imgUrl="src/assets/img/Bg.svg">
+  <AppLayout imgUrl="src/assets/img/Bg.svg" :backFunc="removeIngreditnt" :isBackBtnVisible="!!ingredient">
     <div class="wrapper">
       <div v-if="!ingredient || !cocktails" class="info">
         <div class="title">Choose your drink</div>
@@ -28,6 +29,8 @@ const getCockatils = () => {
             placeholder="Choose main ingredient"
             size="large"
             class="select"
+            filterable
+            allow-create
             @change="getCockatils"
           >
             <el-option
@@ -50,7 +53,11 @@ const getCockatils = () => {
         </div>
         <div class="line"></div>
         <div class="cocktails">
-          <CockltailsThumb v-for="cocktail in cocktails" :key="cocktail.idDrink" :cocktail="cocktail"/>
+          <CockltailsThumb
+            v-for="cocktail in cocktails"
+            :key="cocktail.idDrink"
+            :cocktail="cocktail"
+          />
         </div>
       </div>
     </div>
@@ -59,15 +66,7 @@ const getCockatils = () => {
 
 <style lang="scss" scoped>
 @import url("../assets/styles/main.scss");
-.wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.info {
-  padding: 80px 0;
-  text-align: center;
-}
+
 .select-wrapper {
   padding: 50px;
 }
@@ -85,13 +84,14 @@ const getCockatils = () => {
 .img {
   margin-top: 60px;
 }
-.cocktails{
+.cocktails {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-top: 60px;
   flex-wrap: wrap;
-  max-height: 500px ;
+  max-height: 500px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 </style>
