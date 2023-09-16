@@ -1,5 +1,9 @@
 <script setup>
+import { ROITES_PATHS } from "../constants/index";
+import { computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { Back } from "@element-plus/icons-vue";
+
 const props = defineProps({
   imgUrl: {
     type: String,
@@ -14,6 +18,14 @@ const props = defineProps({
     default: true,
   },
 });
+
+const route = useRoute();
+const router = useRouter();
+const routeName = computed(() => route.name);
+const goForRandom = () => {
+  router.push(ROITES_PATHS.COCKTAIL_RANDOM);
+  if (routeName.value === ROITES_PATHS.COCKTAIL_RANDOM) router.go();
+};
 </script>
 
 <template>
@@ -29,7 +41,9 @@ const props = defineProps({
           @click="backFunc"
           v-if="isBackBtnVisible"
         />
-        <el-button class="btn">Get random cocktail</el-button>
+        <el-button class="btn" @click="goForRandom"
+          >Get random cocktail</el-button
+        >
       </div>
       <slot></slot>
     </div>
