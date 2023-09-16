@@ -11,7 +11,6 @@ const props = defineProps({
   },
   backFunc: {
     type: Function,
-    required: true,
   },
   isBackBtnVisible: {
     type: Boolean,
@@ -26,6 +25,9 @@ const goForRandom = () => {
   router.push(ROITES_PATHS.COCKTAIL_RANDOM);
   if (routeName.value === ROITES_PATHS.COCKTAIL_RANDOM) router.go();
 };
+const goBack = () => {
+  props.backFunc ? props.backFunc() : router.go(-1);
+};
 </script>
 
 <template>
@@ -38,7 +40,7 @@ const goForRandom = () => {
           :icon="Back"
           circle
           class="back"
-          @click="backFunc"
+          @click="goBack"
           v-if="isBackBtnVisible"
         />
         <el-button class="btn" @click="goForRandom"

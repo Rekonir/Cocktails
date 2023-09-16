@@ -7,9 +7,7 @@ import axios from "axios";
 
 const route = useRoute();
 const router = useRouter();
-const goBack = () => {
-  router.go(-1);
-};
+
 
 const cocktail = ref(null);
 const cocktailId = computed(() => route.path.split("/").pop());
@@ -37,7 +35,7 @@ getCockatil();
 
 <template>
   <div v-if="cocktail" class="wrap">
-    <AppLayout :imgUrl="cocktail.strDrinkThumb" :backFunc="goBack">
+    <AppLayout :imgUrl="cocktail.strDrinkThumb" >
       <div class="wrapper">
         <div class="info">
           <div class="title">{{ cocktail.strDrink }}</div>
